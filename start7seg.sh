@@ -15,7 +15,7 @@ case "$1" in
   start)
     echo "Starting 7seg.py"
     # run application you want to start
-	python /home/pi/python-spi/7seg.py
+	python /home/pi/master/7seg/7seg.py
     ;;
   stop)
     echo "Stopping 7seg.py"
