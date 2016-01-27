@@ -104,7 +104,7 @@ class sevenseg:
 		
   ##The start of the real code ##
 if __name__ == "__main__":
-	logging.basicConfig(filename=LOGFILE,filemode='w',level=logging.INFO)
+	logging.basicConfig(filename=LOGFILE,filemode='w',level=logging.WARNING)
 	logging.warning(datetime.datetime.now().strftime('%d %b %H:%M')+". Running 7seg class as a standalone app")
 
 	print "Running 7seg class as a standalone app"

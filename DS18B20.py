@@ -7,6 +7,7 @@
 
 import logging
 import os, glob
+import time
 
 LOGFILE = '/home/pi/master/7seg/log/DS18B20.log'
 
@@ -42,7 +43,6 @@ class DS18B20():
 			temp_f = temp_c * 9.0 / 5.0 + 32.0
 			if int(temp_c) == 85:		# sensor still converting
 				self.logger.warning('Temperature read as 85C.')
-				temp_c = self.read_temp()	# try again
 			self.logger.info('Temperature:'+str(temp_c))
 			return temp_c
 

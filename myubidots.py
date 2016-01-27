@@ -15,10 +15,13 @@ class Ubidots():
 	def __init__(self):
 		self.logger = logging.getLogger(__name__)
 		# Ubidots Create an "API" object and variable object
-		api = ApiClient(keys.ubidots_api_key)
-		self.test_variable = api.get_variable(keys.ubidots_bench_variable_key)
-		self.logger.info('Ubidots initialised.')
-			
+		try:
+			api = ApiClient(keys.ubidots_api_key)
+			self.test_variable = api.get_variable(keys.ubidots_bench_variable_key)
+			self.logger.info('Ubidots initialised.')
+		except:
+			self.logger.error('Ubidots failed to initialise.')
+		
 	def write(self, val):
 		if True:
 			try:
