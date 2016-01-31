@@ -4,12 +4,12 @@
 # dtoverlay=w1-gpio
 # Developed from sensor instructions from:
 #  https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/software
+# /boot/config.txt add....
+#   dtoverlay=w1-gpio,gpiopin=4,pullup=on
 
-import logging
-import os, glob
-import time
+import logging, os, glob, time
 
-LOGFILE = '/home/pi/master/7seg/log/DS18B20.log'
+LOGFILE = 'log/DS18B20.log'
 
 class DS18B20():
 	def __init__(self):
@@ -19,9 +19,12 @@ class DS18B20():
 		base_dir = '/sys/bus/w1/devices/'
 		device_folder = glob.glob(base_dir + '28*')[0]
 		self.device_file = device_folder + '/w1_slave'
+		temperature = self.read_temp()	
+		self.min_temp = temperature
+		self.max_temp = temperature
 		self.logger.info('Temperature sensor initialised.')
 
-	def read_temp_raw(self):
+	def _read_temp_raw(self):
 		try:
 			f = open(self.device_file, 'r')
 			lines = f.readlines()
@@ -32,7 +35,7 @@ class DS18B20():
 			return(' ')
 
 	def read_temp(self):
-		lines = self.read_temp_raw()
+		lines = self._read_temp_raw()
 		while lines[0].strip()[-3:] != 'YES':
 			time.sleep(0.2)
 			lines = self.read_temp_raw()
@@ -46,9 +49,19 @@ class DS18B20():
 			self.logger.info('Temperature:'+str(temp_c))
 			return temp_c
 
+	def read_max_min_temp(self):
+		temperature = self.read_temp()
+		if temperature < self.min_temp:
+			self.min_temp = temperature
+		if temperature > self.max_temp:
+			self.max_temp = temperature
+		return(temperature)
+	
 if __name__ == "__main__":
 	logging.basicConfig(filename=LOGFILE,filemode='w',level=logging.INFO)
 	logging.warning('Running DS18B20 as a standalone app.')
 	myReader = DS18B20()
-	print myReader.read_temp()
+	print myReader.read_max_min_temp()
+	print 'min=',myReader.min_temp, 'max=',myReader.max_temp
+	
 	

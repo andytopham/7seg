@@ -15,7 +15,6 @@ import smbus
 import logging
 import datetime
  
-bus = smbus.SMBus(1) # 0 for revision 1 Raspberry Pi, change to bus = smbus.SMBus(1) for revision 2.
 address = 0x20 			# i2C address of MCP23017
 sevensegaddress=0x77	# i2c address of 7segment display
 # this address above can get changed by sw glitch. It started at 0x71.
@@ -41,6 +40,7 @@ class Sevenseg:
 	'''7 segment control.'''
 	def __init__(self):
 		self.logger = logging.getLogger(__name__)
+		bus = smbus.SMBus(1) # 0 for revision 1 Raspberry Pi, change to bus = smbus.SMBus(1) for revision 2.
 		self.ioerrorcount = 0
 		try:
 			bus.write_byte(sevensegaddress,cleardisplay)

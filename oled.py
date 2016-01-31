@@ -38,7 +38,7 @@ class Oled:
 		self.initialise()
 	
 	def initialise(self):
-		self.port.open()
+#		self.port.open()		# with new versions of pyserial, the constructor opens the port
 		self.logger.info("Opened serial port")
 		self.port.write(chr(254))		# cmd
 		self.port.write(chr(1))			# clear display
@@ -127,7 +127,7 @@ if __name__ == "__main__":
 						level=logging.INFO)	#filemode means that we do not append anymore
 #	Default level is warning, level=logging.INFO log lots, level=logging.DEBUG log everything
 	logging.warning(datetime.datetime.now().strftime('%d %b %H:%M')+". Running oled class as a standalone app")
-	myOled = oled()
+	myOled = Oled()
 	myOled.cleardisplay()
 	myOled.writerow(1,"   OLED class       ")
 	myOled.writerow(2,"Config size="+str(myOled.rowlength)+"x"+str(myOled.rowcount))
