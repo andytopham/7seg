@@ -11,6 +11,8 @@
 # Description:       This service is used to start clock display
 ### END INIT INFO
 
+sleep 30
+
 case "$1" in
   start)
     echo "Starting thermometer.py"

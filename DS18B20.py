@@ -53,8 +53,9 @@ class DS18B20():
 		temperature = self.read_temp()
 		if temperature < self.min_temp:
 			self.min_temp = temperature
-		if temperature > self.max_temp:
-			self.max_temp = temperature
+		if temperature != 85:
+			if temperature > self.max_temp:
+				self.max_temp = temperature
 		return(temperature)
 	
 if __name__ == "__main__":

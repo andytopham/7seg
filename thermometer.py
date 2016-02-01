@@ -3,7 +3,7 @@
 # A thermometer that senses using a DS18B20 and outputs to oled or 7seg display and ubidots cloud.
 
 import os, logging, glob, time, sys
-import alarm, myubidots, DS18B20
+import alarm, myubidots, DS18B20, system
 
 LOGFILE = '/home/pi/master/thermometer/log/thermometer.log'
 VALUEFILE = '/home/pi/master/thermometer/log/values.log'
@@ -53,6 +53,9 @@ class Thermometer():
 			self.logger.error('Sensor init failed.')
 			sys.exit(0)
 		self.myAlarm = alarm.Alarm()
+		self.mySystem = system.System()
+		hostname = self.mySystem.hostname()
+		self.myOled.writerow(2,hostname)
 		self.flag = False
 		self.fp = open(VALUEFILE,'w')
 		self.fp.write('Temperature values\n')
