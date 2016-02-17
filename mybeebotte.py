@@ -42,6 +42,6 @@ if __name__ == "__main__":
 	logging.warning('Running mybeebotte as a standalone app.')
 	print 'Writing test value to beebotte.'
 	myBeebotte = Mybeebotte(0)	# Beware!!! Writes all the time.
-	myBeebotte.write(12)		# Test value
+	myBeebotte.write(11)		# Test value
 	print 'Wrote value 12'
 	

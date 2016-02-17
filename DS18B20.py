@@ -1,7 +1,5 @@
 #!/usr/bin/python
 # DS18B20.py
-# Before running this prog, need to edit /boot/config.txt to add....
-# dtoverlay=w1-gpio
 # Developed from sensor instructions from:
 #  https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/software
 # /boot/config.txt add....

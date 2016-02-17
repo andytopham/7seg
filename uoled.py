@@ -2,6 +2,7 @@
 # uoled.py
 # My routines for writing to the micro oled.
 # This calls on info from guyc at py-gaugette on github and raspi.tv.
+# First, enable the spi bus using sudo raspi-config
 # GPIO docs are here...
 # https://pypi.python.org/pypi/RPi.GPIO
 # http://raspi.tv/2015/rpi-gpio-new-feature-gpio-rpi_info-replaces-gpio-rpi_revision
@@ -45,6 +46,11 @@ class Screen:
 	
 	def writerow(self,rownumber,string):
 		self.MySsd.draw_text2(0,(rownumber)*ROW_HEIGHT,string,1)
+		self.MySsd.display()
+		return(0)
+
+	def _writerow(self,rownumber,string):
+		self.MySsd.draw_text2(0,(rownumber)*ROW_HEIGHT,string,1)
 		return(0)
 
 	def draw_blob(self,x,y):
@@ -67,7 +73,7 @@ class Screen:
 	
 	def test(self):
 		self.writerow(1,'Test')
-		self.display()
+#		self.display()
 		return(0)
 		
 	def info(self):
