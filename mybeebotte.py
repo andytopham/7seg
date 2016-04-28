@@ -37,11 +37,15 @@ class Mybeebotte():
 				return(False)
 		return(True)
 
+	def read(self):
+		bee = self.test_variable.read(limit = 1)[0]
+		return(bee['data'])
+	
 if __name__ == "__main__":
 	logging.basicConfig(filename=LOGFILE,filemode='w',level=logging.INFO)
 	logging.warning('Running mybeebotte as a standalone app.')
-	print 'Writing test value to beebotte.'
-	myBeebotte = Mybeebotte(0)	# Beware!!! Writes all the time.
+	print 'Writing test value to beebotte and reading it back.'
+	myBeebotte = Mybeebotte(0)	# Beware!!! Writes with each write call.
 	myBeebotte.write(11)		# Test value
 	print 'Wrote value 12'
-	
+	print 'Read:', myBeebotte.read()

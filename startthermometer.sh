@@ -17,7 +17,7 @@ case "$1" in
   start)
     echo "Starting thermometer.py"
     # run application you want to start
-	python /home/pi/master/thermometer/thermometer.py
+	python /home/pi/master/thermometer/thermometer.py &
     ;;
   stop)
     echo "Stopping thermometer.py"

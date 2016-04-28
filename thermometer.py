@@ -14,7 +14,6 @@ class Thermometer():
 		self.logger = logging.getLogger(__name__)
 		self.displaytype = keys.display
 		self.cloud = keys.cloud
-#		self.beebotte = keys.beebotte
 		if self.displaytype == 'oled':
 			try:
 				import oled
@@ -29,6 +28,7 @@ class Thermometer():
 				self.display = uoled.Screen()
 				self.display.writerow(0,'Thermometer')
 				self.display.writerow(2,'Getting ready')
+				self.display.writerow(3,' Min   Now   Max')
 			except:
 				print 'Uoled failed init.'
 				self.logger.error('Uoled failed init.')
@@ -54,7 +54,7 @@ class Thermometer():
 				self.display.writerow(1,"Dummycloud failed init")
 				self.logger.error('Dummycloud failed init.')
 				sys.exit(0)
-		if self.cloud == 'ubidots':
+		elif self.cloud == 'ubidots':
 			try:
 				import myubidots
 				self.myCloud = myubidots.Myubidots()
@@ -63,7 +63,7 @@ class Thermometer():
 				self.display.writerow(1,"Ubidots failed init")
 				self.logger.error('Ubidots failed init.')
 				sys.exit(0)
-		if self.cloud == 'beebotte':
+		elif self.cloud == 'beebotte':
 			try:
 				import mybeebotte
 				self.myCloud = mybeebotte.Mybeebotte()
@@ -72,6 +72,10 @@ class Thermometer():
 				self.display.writerow(1,"Beebotte failed init")
 				self.logger.error('Beebotte failed init.')
 				sys.exit(0)
+		else:
+			self.logger.error('Cloud type not specified. Check keys file.')
+			print 'Cloud type not specified. Check keys file.'
+			sys.exit(0)			
 
 		try:
 			self.myDS = DS18B20.DS18B20()
@@ -84,9 +88,9 @@ class Thermometer():
 		hostname = self.mySystem.hostname()
 		self.display.writerow(2,hostname)
 		self.flag = False
-		self.fp = open(VALUEFILE,'w')
-		self.fp.write('Temperature values\n')
-		self.fp.close()
+#		self.fp = open(VALUEFILE,'w')
+#		self.fp.write('Temperature values\n')
+#		self.fp.close()
 		self.log_counter = 0
 		self.display.writerow(1,"  Initialised     ")
 		
@@ -133,7 +137,7 @@ class Thermometer():
 		self.log_counter += 1
 		if self.log_counter > 12:
 			self.log_counter = 0
-			self.fp = open(VALUEFILE,'a')
+			self.fp = open(VALUEFILE,'w')
 			self.fp.write(str(temperature)+'\n')
 			self.fp.close
 		return(0)
@@ -158,7 +162,7 @@ class Thermometer():
 				time.sleep(.5)
 				temperature = self.myDS.read_temp()	# try a second time
 			print 'Min=',self.myDS.min_temp,' Current=',temperature,' Max=',self.myDS.max_temp	
-			self._log_temp(temperature)
+#			self._log_temp(temperature)
 			if temperature == 85:
 				print 'Skipping because had poor sensor reading twice.'
 				self.display.writerow(1,'Bad sensor')

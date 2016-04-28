@@ -3,6 +3,7 @@
 
 import logging, datetime
 LOGFILE = 'log/dummycloud.log'
+VALUEFILE = '/home/pi/master/thermometer/log/values.log'
 
 class Mydummycloud():
 	def __init__(self, interval = 2):
@@ -11,6 +12,11 @@ class Mydummycloud():
 		self.cloud_interval = datetime.timedelta(minutes = interval)
 		self.last_time = datetime.datetime.now()
 
+	def _log_temp(self, temperature):
+		self.fp = open(VALUEFILE,'w')	
+		self.fp.write(str(temperature)+'\n')
+		self.fp.close
+		return(0)
 		
 	def write(self, val):
 		now = datetime.datetime.now()
@@ -19,6 +25,7 @@ class Mydummycloud():
 			try:
 				print 'Dummy cloud write:', val
 				self.logger.info('Write to dummycloud OK')
+				self._log_temp(val)
 			except:
 				self.logger.warning("Error saving to dummycloud. Value="+str(val))				
 				return(False)
