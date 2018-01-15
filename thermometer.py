@@ -24,13 +24,13 @@ class Thermometer():
 				sys.exit(0)
 		elif self.displaytype == 'uoled':
 			try:
-				import uoled
-				self.display = uoled.Screen()
+				import uoledada
+				self.display = uoledada.Screen()
 				self.display.writerow(0,'Thermometer')
 				self.display.writerow(2,'Getting ready')
 				self.display.writerow(3,' Min   Now   Max')
 			except:
-				print 'Uoled failed init.'
+				print 'Uoled failed init.', sys.exc_info()
 				self.logger.error('Uoled failed init.')
 				sys.exit(0)
 		elif self.displaytype == '7seg':
@@ -50,6 +50,7 @@ class Thermometer():
 				import dummycloud
 				self.myCloud = dummycloud.Mydummycloud()
 				self.cloud_error = False
+				print 'No cloud logging'
 			except:
 				self.display.writerow(1,"Dummycloud failed init")
 				self.logger.error('Dummycloud failed init.')
@@ -59,6 +60,7 @@ class Thermometer():
 				import myubidots
 				self.myCloud = myubidots.Myubidots()
 				self.cloud_error = False
+				print 'ubidots logging'
 			except:
 				self.display.writerow(1,"Ubidots failed init")
 				self.logger.error('Ubidots failed init.')
@@ -68,6 +70,7 @@ class Thermometer():
 				import mybeebotte
 				self.myCloud = mybeebotte.Mybeebotte()
 				self.cloud_error = False
+				print 'beebotte logging'
 			except:
 				self.display.writerow(1,"Beebotte failed init")
 				self.logger.error('Beebotte failed init.')
@@ -156,7 +159,7 @@ class Thermometer():
 	
 	def mainloop(self):
 		while True:
-			temperature = self.myDS.read_max_min_temp()	
+			temperature = self.myDS.read_max_min_temp()
 			if temperature == 85:
 				print 'Error: temperature = 85'
 				time.sleep(.5)

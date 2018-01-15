@@ -9,6 +9,19 @@
 
 import gaugette.ssd1306
 import time
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_SSD1306
+ 
+import Image
+import ImageDraw
+import ImageFont
+# Raspberry Pi pin configuration:
+RST = 24
+# Note the following are only used with SPI:
+DC = 23
+SPI_PORT = 0
+SPI_DEVICE = 0
+
 
 # Setup which pins we are using to control the oled
 RESET_PIN = 15

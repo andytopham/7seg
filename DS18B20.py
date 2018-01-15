@@ -11,6 +11,7 @@ LOGFILE = 'log/DS18B20.log'
 
 class DS18B20():
 	def __init__(self):
+		print 'Initialising DS18B20'
 		self.logger = logging.getLogger(__name__)
 		os.system('modprobe w1-gpio')
 		os.system('modprobe w1-therm')
@@ -33,6 +34,7 @@ class DS18B20():
 			return(' ')
 
 	def read_temp(self):
+#		print 'Reading temperature'
 		lines = self._read_temp_raw()
 		while lines[0].strip()[-3:] != 'YES':
 			time.sleep(0.2)
@@ -46,6 +48,7 @@ class DS18B20():
 				self.logger.warning('Temperature read as 85C.')
 			self.logger.info('Temperature:'+str(temp_c))
 			return temp_c
+		return(float(0))
 
 	def read_max_min_temp(self):
 		temperature = self.read_temp()
